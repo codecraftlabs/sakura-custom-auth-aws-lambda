@@ -5,7 +5,7 @@ object AWSLambdaEnvVars {
   val AuthenticationDynamoDBTableDefault = "InternalAuthentication"
 
   val AuthorizationHeader = "AUTHORIZATION_HEADER_NAME"
-  val AuthorizationHeaderDefault = "authorization"
+  val AuthorizationHeaderDefault = "x-secret-key"
 
   val MethodArnHeader = "METHOD_ARN"
   val MethodArnHeaderDefault = "methodArn"
