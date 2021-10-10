@@ -65,3 +65,4 @@ jrebel.lic
 .*.sw?
 .idea
 target/
+.bsp/

@@ -2,7 +2,7 @@ package org.sharpsw.sakura.service
 
 object AWSLambdaEnvVars {
   val AuthenticationDynamoDBTable = "AUTH_TABLE_NAME"
-  val AuthenticationDynamoDBTableDefault = "SakuraAuthentication"
+  val AuthenticationDynamoDBTableDefault = "InternalAuthentication"
 
   val AuthorizationHeader = "AUTHORIZATION_HEADER_NAME"
   val AuthorizationHeaderDefault = "authorization"
