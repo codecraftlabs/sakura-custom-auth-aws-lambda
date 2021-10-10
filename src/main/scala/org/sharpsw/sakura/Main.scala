@@ -5,7 +5,7 @@ import org.sharpsw.sakura.auth.AuthResponse
 import org.sharpsw.sakura.service.AWSLambdaEnvVars.{AuthorizationHeader, AuthorizationHeaderDefault, MethodArnHeader, MethodArnHeaderDefault}
 import org.sharpsw.sakura.service.AuthDynamoDB.isAuthorized
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.util.Properties
 
 class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
