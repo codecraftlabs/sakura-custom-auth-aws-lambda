@@ -1,7 +1,8 @@
-package org.sharpsw.sakura.service
+package org.codecraftlabs.kauai.service
+
 import com.amazonaws.services.dynamodbv2.model.{AttributeValue, GetItemRequest, GetItemResult}
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
-import org.sharpsw.sakura.service.AWSLambdaEnvVars.{AuthenticationDynamoDBTable, AuthenticationDynamoDBTableDefault}
+import AWSLambdaEnvVars.{AuthenticationDynamoDBTable, AuthenticationDynamoDBTableDefault}
 
 import scala.collection.JavaConverters._
 import scala.util.Properties
@@ -29,7 +30,7 @@ object AuthDynamoDB {
 
       items match {
         case Some(items) => (items.get(PrincipalIdColumn).getS, items.get(EnabledColumn).getBOOL)
-        case _ => ("unknown", false)
+        case _           => ("unknown", false)
       }
     } catch {
       case exception: Throwable =>

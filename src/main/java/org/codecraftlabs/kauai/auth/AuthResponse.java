@@ -1,4 +1,4 @@
-package org.sharpsw.sakura.auth;
+package org.codecraftlabs.kauai.auth;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.sharpsw.sakura.service
+package org.codecraftlabs.kauai.service
 
 object AWSLambdaEnvVars {
   val AuthenticationDynamoDBTable = "AUTH_TABLE_NAME"

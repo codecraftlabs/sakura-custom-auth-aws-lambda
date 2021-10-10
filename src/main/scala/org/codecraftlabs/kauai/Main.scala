@@ -1,9 +1,9 @@
-package org.sharpsw.sakura
+package org.codecraftlabs.kauai
 
 import com.amazonaws.services.lambda.runtime.{Context, RequestHandler}
-import org.sharpsw.sakura.auth.AuthResponse
-import org.sharpsw.sakura.service.AWSLambdaEnvVars.{AuthorizationHeader, AuthorizationHeaderDefault, MethodArnHeader, MethodArnHeaderDefault}
-import org.sharpsw.sakura.service.AuthDynamoDB.isAuthorized
+import org.codecraftlabs.kauai.auth.AuthResponse
+import org.codecraftlabs.kauai.service.AWSLambdaEnvVars.{AuthorizationHeader, AuthorizationHeaderDefault, MethodArnHeader, MethodArnHeaderDefault}
+import org.codecraftlabs.kauai.service.AuthDynamoDB.isAuthorized
 
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.util.Properties
@@ -18,7 +18,7 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
 
     headers match {
       case x: java.util.Map[String, Object] => authenticate(x, methodArn)
-      case _ => invalidate
+      case _                                => invalidate
     }
   }
 
