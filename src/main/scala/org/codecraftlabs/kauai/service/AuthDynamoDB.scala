@@ -11,17 +11,7 @@ object AuthDynamoDB {
   private val AuthKeyColumn = "authenticationKey"
   private val EnabledColumn = "enabled"
   private val PrincipalIdColumn = "principalId"
-
-
-  private def getCredentials(authKey: String): GetItemResult = {
-    val client = AmazonDynamoDBClientBuilder.standard().build()
-    val key = Map(
-      AuthKeyColumn -> new AttributeValue().withS(authKey)
-    ).asJava
-
-    val request = new GetItemRequest().withTableName(Properties.envOrElse(AuthenticationDynamoDBTable, AuthenticationDynamoDBTableDefault)).withKey(key)
-    client.getItem(request)
-  }
+  private val Unknown: String = "unknown"
 
   def isAuthorized(authKey: String): (String, Boolean) = {
     try {
@@ -30,12 +20,24 @@ object AuthDynamoDB {
 
       items match {
         case Some(items) => (items.get(PrincipalIdColumn).getS, items.get(EnabledColumn).getBOOL)
-        case _           => ("unknown", false)
+        case _           => (Unknown, false)
       }
     } catch {
-      case exception: Throwable =>
-        println(exception.getMessage)
-        ("unknown", false)
+      case exception: Throwable => println(exception.getMessage)
+                                    (Unknown, false)
     }
+  }
+
+  private def getCredentials(authKey: String): GetItemResult = {
+    val client = AmazonDynamoDBClientBuilder.standard().build()
+    val key = Map(
+      AuthKeyColumn -> new AttributeValue().withS(authKey)
+    ).asJava
+
+    val request = new GetItemRequest()
+      .withTableName(Properties.envOrElse(AuthenticationDynamoDBTable, AuthenticationDynamoDBTableDefault))
+      .withKey(key)
+
+    client.getItem(request)
   }
 }
