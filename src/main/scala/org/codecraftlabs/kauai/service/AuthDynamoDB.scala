@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.model.{AttributeValue, GetItemRequest, 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder
 import AWSLambdaEnvVars.{AuthenticationDynamoDBTable, AuthenticationDynamoDBTableDefault}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters.MapHasAsJava
 import scala.util.Properties
 
 object AuthDynamoDB {
