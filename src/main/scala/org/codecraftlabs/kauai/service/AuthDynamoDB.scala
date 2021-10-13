@@ -8,9 +8,9 @@ import scala.jdk.CollectionConverters.MapHasAsJava
 import scala.util.Properties
 
 object AuthDynamoDB {
-  private val AuthKeyColumn = "authenticationKey"
-  private val EnabledColumn = "enabled"
-  private val PrincipalIdColumn = "principalId"
+  private val AuthKeyColumn: String = "authenticationKey"
+  private val EnabledColumn: String = "enabled"
+  private val PrincipalIdColumn: String = "principalId"
   private val Unknown: String = "unknown"
 
   def isAuthorized(authKey: String): (String, Boolean) = {

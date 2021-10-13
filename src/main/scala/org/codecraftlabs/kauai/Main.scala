@@ -21,7 +21,7 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
     val methodArn = event.asScala(Properties.envOrElse(MethodArnHeader, MethodArnHeaderDefault)).toString
 
     headers match {
-      case x: java.util.Map[String, Object] => authenticate(x, methodArn)
+      case headerItems: java.util.Map[String, Object] => authenticate(headerItems, methodArn)
       case _                                => invalidate
     }
   }
