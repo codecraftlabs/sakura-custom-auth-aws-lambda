@@ -12,7 +12,7 @@ lazy val root = (project in file(".")).
       version      := appVersion
     )),
     name := appName,
-    assemblyJarName in assembly := appName + "-" + appVersion + ".jar",
+    assembly / assemblyJarName := appName + "-" + appVersion + ".jar",
     libraryDependencies += scalaTest % Test,
     libraryDependencies += "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
     libraryDependencies += "com.amazonaws" % "aws-lambda-java-events" % "3.10.0",
