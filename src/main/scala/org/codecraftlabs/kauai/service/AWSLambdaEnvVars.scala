@@ -9,4 +9,7 @@ object AWSLambdaEnvVars {
 
   val MethodArnHeader = "METHOD_ARN"
   val MethodArnHeaderDefault = "methodArn"
+
+  val PrincipalIdHeader = "PRINCIPAL_ID"
+  val PrincipalIdDefault = "x-principal-id"
 }

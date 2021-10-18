@@ -6,7 +6,7 @@ import org.codecraftlabs.kauai.service.AWSLambdaEnvVars.{AuthorizationHeader, Au
 import org.codecraftlabs.kauai.service.AuthDynamoDB.isAuthorized
 
 import scala.jdk.CollectionConverters.MapHasAsScala
-import scala.util.Properties
+import scala.util.Properties.envOrElse;
 
 class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
   private val Headers: String = "headers"
@@ -18,7 +18,7 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
     println("Starting authentication process")
     println(event.asScala)
     val headers = event.asScala(Headers)
-    val methodArn = event.asScala(Properties.envOrElse(MethodArnHeader, MethodArnHeaderDefault)).toString
+    val methodArn = event.asScala(envOrElse(MethodArnHeader, MethodArnHeaderDefault)).toString
 
     headers match {
       case headerItems: java.util.Map[String, Object] => authenticate(headerItems, methodArn)
@@ -27,7 +27,8 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
   }
 
   private def authenticate(headers: java.util.Map[String, Object], methodArn: String): AuthResponse = {
-    val authenticationHeader = headers.asScala(Properties.envOrElse(AuthorizationHeader, AuthorizationHeaderDefault)).toString
+    val principalId = headers.asScala(envOrElse(MethodArnHeader, MethodArnHeaderDefault))
+    val authenticationHeader = headers.asScala(envOrElse(AuthorizationHeader, AuthorizationHeaderDefault)).toString
     val authResult = isAuthorized(authenticationHeader)
     if(authResult._2) {
       println("Authentication OK for token: " + authenticationHeader)
