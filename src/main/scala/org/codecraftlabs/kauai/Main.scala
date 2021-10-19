@@ -2,7 +2,7 @@ package org.codecraftlabs.kauai
 
 import com.amazonaws.services.lambda.runtime.{Context, RequestHandler}
 import org.codecraftlabs.kauai.auth.AuthResponse
-import org.codecraftlabs.kauai.service.AWSLambdaEnvVars.{AuthorizationHeader, AuthorizationHeaderDefault, MethodArnHeader, MethodArnHeaderDefault}
+import org.codecraftlabs.kauai.service.AWSLambdaEnvVars.{AuthorizationHeader, AuthorizationHeaderDefault, MethodArnHeader, MethodArnHeaderDefault, PrincipalIdDefault, PrincipalIdHeader}
 import org.codecraftlabs.kauai.service.AuthDynamoDB.isAuthorized
 
 import scala.jdk.CollectionConverters.MapHasAsScala
@@ -27,7 +27,7 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
   }
 
   private def authenticate(headers: java.util.Map[String, Object], methodArn: String): AuthResponse = {
-    val principalId = headers.asScala(envOrElse(MethodArnHeader, MethodArnHeaderDefault))
+    val principalId = headers.asScala(envOrElse(PrincipalIdHeader, PrincipalIdDefault)).toString
     val authenticationHeader = headers.asScala(envOrElse(AuthorizationHeader, AuthorizationHeaderDefault)).toString
     val authResult = isAuthorized(authenticationHeader)
     if(authResult._2) {
