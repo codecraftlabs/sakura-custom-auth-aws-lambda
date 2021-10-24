@@ -6,7 +6,7 @@ import org.codecraftlabs.kauai.service.AWSLambdaEnvVars.{AuthorizationHeader, Au
 import org.codecraftlabs.kauai.service.AuthDynamoDB.isAuthorized
 
 import scala.jdk.CollectionConverters.MapHasAsScala
-import scala.util.Properties.envOrElse;
+import scala.util.Properties.envOrElse
 
 class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
   private val Headers: String = "headers"
@@ -27,15 +27,24 @@ class Main extends RequestHandler[java.util.Map[String, Object], AuthResponse] {
   }
 
   private def authenticate(headers: java.util.Map[String, Object], methodArn: String): AuthResponse = {
-    val principalId = headers.asScala(envOrElse(PrincipalIdHeader, PrincipalIdDefault)).toString
-    val authenticationHeader = headers.asScala(envOrElse(AuthorizationHeader, AuthorizationHeaderDefault)).toString
-    val authResult = isAuthorized(authenticationHeader)
-    if(authResult._2) {
-      println("Authentication OK for token: " + authenticationHeader)
-      new AuthResponse().setEffect(Allow).setPrincipalId(authResult._1).setResource(methodArn)
+    if (!headers.containsKey(envOrElse(PrincipalIdHeader, PrincipalIdDefault))) {
+      println("Authentication failed. Missing principalId")
+      new AuthResponse().setEffect(Deny).setPrincipalId("None").setResource(methodArn)
+    } else if (!headers.containsKey(envOrElse(AuthorizationHeader, AuthorizationHeaderDefault))) {
+      println("Authentication failed. Missing secret key")
+      new AuthResponse().setEffect(Deny).setPrincipalId("None").setResource(methodArn)
     } else {
-      println("Authentication failed for token: " + authenticationHeader)
-      new AuthResponse().setEffect(Deny).setPrincipalId(authResult._1).setResource(methodArn)
+      val principalId = headers.asScala(envOrElse(PrincipalIdHeader, PrincipalIdDefault)).toString
+      val authenticationHeader = headers.asScala(envOrElse(AuthorizationHeader, AuthorizationHeaderDefault)).toString
+      val authResult = isAuthorized(authenticationHeader)
+
+      if(authResult._1.equals(principalId) && authResult._2) {
+        println("Authentication OK for token: " + authenticationHeader)
+        new AuthResponse().setEffect(Allow).setPrincipalId(authResult._1).setResource(methodArn)
+      } else {
+        println("Authentication failed for token: " + authenticationHeader)
+        new AuthResponse().setEffect(Deny).setPrincipalId(authResult._1).setResource(methodArn)
+      }
     }
   }
 
