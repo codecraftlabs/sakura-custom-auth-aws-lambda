@@ -15,12 +15,12 @@ lazy val root = (project in file(".")).
     assembly / assemblyJarName := appName + "-" + appVersion + ".jar",
     libraryDependencies += scalaTest % Test,
     libraryDependencies += "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
-    libraryDependencies += "com.amazonaws" % "aws-lambda-java-events" % "3.10.0",
-    libraryDependencies += "com.amazonaws" % "aws-java-sdk-core" % "1.12.90",
-    libraryDependencies += "com.amazonaws" % "aws-java-sdk-dynamodb" % "1.12.90",
+    libraryDependencies += "com.amazonaws" % "aws-lambda-java-events" % "3.11.0",
+    libraryDependencies += "com.amazonaws" % "aws-java-sdk-core" % "1.12.137",
+    libraryDependencies += "com.amazonaws" % "aws-java-sdk-dynamodb" % "1.12.131",
     libraryDependencies += "org.json4s" %% "json4s-native" % "4.0.3",
     libraryDependencies += "org.json4s" %% "json4s-jackson" % "4.0.3",
-    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.6",
+    libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.10",
     libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.4"
   )
 
